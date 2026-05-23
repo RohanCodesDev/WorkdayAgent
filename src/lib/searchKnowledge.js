@@ -1,4 +1,4 @@
-import knowledge from '@/data/workdayKnowledge.json';
+import knowledge from '../data/workdayKnowledge.json';
 import { embed, cosineSimilarity } from './semantic';
 
 let indexedKnowledge = null;
