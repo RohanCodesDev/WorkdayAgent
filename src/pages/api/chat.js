@@ -22,8 +22,10 @@ export default async function handler(req, res) {
 
     const result = await semanticSearch(message);
     let matched = result.match;
-    if (result.score < 0.45) {
-      matched = null;
+    if (result.score < 0.55) {
+      return res.status(200).json({
+        reply: "I couldn't confidently identify the Workday setting.",
+      });
     }
     const context = matched
       ? `Task:
