@@ -1,26 +1,78 @@
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Search, Mic, FileText, Calendar, Clock, TrendingUp } from 'lucide-react';
 
 export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
+  const [healthStatus, setHealthStatus] = useState('checking');
+  const [messages, setMessages] = useState([]);
+  const [apiError, setApiError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const fullText = 'A smart assistant to help you navigate Workday, access your data, and complete tasks effortlessly.';
+  const fullText =
+    'A smart assistant to help you navigate Workday, access your data, and complete tasks effortlessly.';
 
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
-      if (index <= fullText.length) {
-        setDisplayedText(fullText.slice(0, index));
-        index += 1;
-      } else {
-        clearInterval(interval);
-      }
+      if (index <= fullText.length) setDisplayedText(fullText.slice(0, index));
+      else clearInterval(interval);
+      index += 1;
     }, 20);
-
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    async function checkHealth() {
+      try {
+        const response = await fetch('/api/health');
+        if (!mounted) return;
+        setHealthStatus(response.ok ? 'connected' : 'disconnected');
+      } catch {
+        if (mounted) setHealthStatus('disconnected');
+      }
+    }
+    checkHealth();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  async function askAI() {
+    const trimmedQuery = searchQuery.trim();
+    if (!trimmedQuery) return;
+    const historySnapshot = messages;
+    setLoading(true);
+    setApiError('');
+    setSearchQuery('');
+    setMessages((prev) => [...prev, { role: 'user', content: trimmedQuery }]);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmedQuery, chatHistory: historySnapshot }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setApiError(data.detail ? `${data.error || 'Chat request failed.'} ${data.detail}` : data.error || 'Chat request failed.');
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: data.reply || 'No response generated.' },
+        ]);
+      }
+    } catch (error) {
+      console.error(error);
+      setApiError('Could not connect AI.');
+    }
+
+    setLoading(false);
+  }
 
   const quickActions = [
     { label: 'View Payslip', icon: FileText },
@@ -29,94 +81,107 @@ export default function LandingPage() {
     { label: 'Performance Review', icon: TrendingUp },
   ];
 
+  const searchPanelClassName = isFocused
+    ? 'landing-search-panel landing-search-panel-active'
+    : 'landing-search-panel';
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-orange-500" />
-            <span className="font-semibold text-gray-900">Workday Navigator</span>
+    <div className="landing-root">
+      <header className="landing-header">
+        <div className="landing-header-inner">
+          <div className="landing-brand-wrap">
+            <div className="landing-brand-logo" />
+            <span className="landing-brand-name">Workday Navigator</span>
+            <span className={`landing-status landing-status-${healthStatus}`}>
+              API: {healthStatus}
+            </span>
           </div>
-          <nav className="flex items-center gap-6 text-sm">
-            <a href="/landing" className="text-gray-700 transition-colors hover:text-gray-900">
+          <nav className="landing-nav">
+            <Link href="/landing" className="landing-nav-link">
               Home
-            </a>
-            <a href="#" className="text-gray-700 transition-colors hover:text-gray-900">
+            </Link>
+            <a href="#" className="landing-nav-link">
               Help
             </a>
-            <a href="#" className="text-gray-700 transition-colors hover:text-gray-900">
+            <a href="#" className="landing-nav-link">
               Profile
             </a>
           </nav>
         </div>
       </header>
-
-      <main className="mx-auto max-w-4xl px-6 pb-16 pt-20">
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-5xl font-semibold tracking-tight text-gray-900">
-            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-orange-500 bg-clip-text text-transparent">
-              Workday
-            </span>{' '}
-            Navigator & Communicator
+      <main className="landing-main">
+        <div className="landing-hero">
+          <h1 className="landing-title">
+            <span className="landing-title-highlight">Workday</span> Navigator & Communicator
           </h1>
-          <p className="mx-auto min-h-[3.5rem] max-w-2xl text-lg leading-relaxed text-gray-600">
+          <p className="landing-subtitle">
             {displayedText}
-            <span className="ml-1 inline-block h-5 w-0.5 animate-pulse bg-gray-600" />
+            <span className="landing-cursor" />
           </p>
         </div>
-
-        <div className="mb-8 space-y-4">
-          <h2 className="mb-6 text-center text-sm font-medium text-gray-500">Quick Actions</h2>
-          <div className="flex flex-wrap justify-center gap-3">
+        <section className="landing-actions-section">
+          <h2 className="landing-actions-title">Quick Actions</h2>
+          <div className="landing-actions-grid">
             {quickActions.map((action) => {
               const Icon = action.icon;
-
               return (
-                <button
-                  key={action.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm text-gray-700 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50/50 hover:text-blue-700 hover:shadow-sm"
-                >
-                  <Icon className="h-4 w-4" />
+                <button key={action.label} className="landing-action-button" type="button">
+                  <Icon className="landing-action-icon" />
                   <span>{action.label}</span>
                 </button>
               );
             })}
           </div>
-        </div>
-
-        <div className="mb-10">
-          <div
-            className={`relative rounded-2xl border-2 bg-white shadow-sm transition-all duration-200 ${
-              isFocused
-                ? 'border-blue-400 shadow-lg shadow-blue-100/50'
-                : 'border-gray-200 hover:border-gray-300'
-            }`}
-          >
-            <div className="flex items-center px-6 py-4">
-              <Search className="mr-3 h-5 w-5 flex-shrink-0 text-gray-400" />
+        </section>
+        <div className="landing-search-wrap">
+          <div className="landing-chat-panel">
+            <div className="landing-chat-header">
+              <h3 className="landing-chat-title">Assistant Chat</h3>
+              <span className="landing-chat-meta">Replies powered by Llama 3 (Groq)</span>
+            </div>
+            <div className="landing-chat-log">
+              {messages.length === 0 ? (
+                <p className="landing-chat-empty">Ask a question to start the conversation.</p>
+              ) : (
+                messages.map((message, index) => (
+                  <div
+                    key={`${message.role}-${index}`}
+                    className={`landing-chat-bubble landing-chat-${message.role}`}
+                  >
+                    {message.content}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+          <div className={searchPanelClassName}>
+            <div className="landing-search-row">
+              <Search className="landing-search-icon" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(event) => setSearchQuery(event.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                placeholder="Ask anything… e.g., Show my payslip, Apply leave, Open performance review"
-                className="flex-1 text-base text-gray-900 outline-none placeholder:text-gray-400"
+                onKeyDown={(e) => e.key === 'Enter' && askAI()}
+                placeholder="Ask Workday anything..."
+                className="landing-search-input"
               />
-              <button className="ml-3 rounded-lg p-2 transition-colors hover:bg-gray-100">
-                <Mic className="h-5 w-5 text-gray-400" />
+              <button
+                className="landing-mic-button"
+                type="button"
+                onClick={askAI}
+                aria-label="Ask the assistant"
+              >
+                {loading ? '...' : <Mic className="landing-mic-icon" />}
               </button>
             </div>
           </div>
         </div>
-
-        <div className="mt-20 text-center">
-          <p className="text-sm text-gray-500">
-            Need help? Contact your HR administrator or visit our{' '}
-            <a href="#" className="text-blue-600 underline hover:text-blue-700">
-              Help Center
-            </a>
-          </p>
+        {loading && <p className="landing-thinking">Thinking...</p>}
+        {apiError && <p className="landing-error">{apiError}</p>}
+        <div className="landing-footer-note">
+          <p className="landing-footer-text">Need help? Contact HR administrator.</p>
         </div>
       </main>
     </div>

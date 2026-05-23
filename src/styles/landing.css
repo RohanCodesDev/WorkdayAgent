@@ -1,0 +1,389 @@
+.landing-root {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f9fbff 0%, #ffffff 65%);
+}
+
+.landing-header {
+  border-bottom: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.landing-header-inner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.landing-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.landing-brand-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.625rem;
+  background: linear-gradient(140deg, #2563eb, #f97316);
+}
+
+.landing-brand-name {
+  color: #111827;
+  font-weight: 600;
+}
+
+.landing-status {
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.landing-status-checking {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.landing-status-connected {
+  background: #ecfdf3;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.landing-status-disconnected {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.landing-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.landing-nav-link {
+  color: #374151;
+  transition: color 0.2s ease;
+}
+
+.landing-nav-link:hover {
+  color: #111827;
+}
+
+.landing-main {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 4rem;
+}
+
+.landing-hero {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.landing-title {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5.2vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #111827;
+  font-weight: 600;
+}
+
+.landing-title-highlight {
+  background: linear-gradient(90deg, #2563eb, #3b82f6, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.landing-subtitle {
+  margin: 0 auto;
+  min-height: 3.5rem;
+  max-width: 42rem;
+  color: #4b5563;
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.landing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2rem;
+  margin-left: 0.25rem;
+  background: #4b5563;
+  vertical-align: text-bottom;
+  animation: landing-blink 1s steps(2, start) infinite;
+}
+
+@keyframes landing-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.landing-actions-section {
+  margin-bottom: 2rem;
+}
+
+.landing-actions-title {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.landing-actions-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.landing-action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.landing-action-button:hover {
+  border-color: #93c5fd;
+  background: rgba(239, 246, 255, 0.75);
+  color: #1d4ed8;
+  box-shadow: 0 8px 20px -14px rgba(29, 78, 216, 0.5);
+}
+
+.landing-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.landing-search-wrap {
+  margin-bottom: 2.5rem;
+}
+
+.landing-chat-panel {
+  margin-bottom: 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  box-shadow: 0 16px 36px -28px rgba(15, 23, 42, 0.45);
+  padding: 1.5rem;
+}
+
+.landing-chat-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.landing-chat-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.landing-chat-meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.landing-chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 18rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.landing-chat-empty {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.landing-chat-bubble {
+  max-width: 80%;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.landing-chat-user {
+  align-self: flex-end;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e3a8a;
+}
+
+.landing-chat-assistant {
+  align-self: flex-start;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.landing-thinking {
+  margin-top: 1.25rem;
+  text-align: center;
+  color: #4b5563;
+}
+
+.landing-error {
+  margin: 1.25rem auto 0;
+  max-width: 53rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.875rem;
+  background: #fff1f2;
+  color: #9f1239;
+  padding: 0.875rem 1rem;
+}
+
+.landing-reply {
+  margin: 1.5rem auto 0;
+  max-width: 53rem;
+  border-radius: 1rem;
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #1e3a8a;
+  padding: 1.25rem;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.landing-search-panel {
+  border: 2px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  transition: all 0.2s ease;
+}
+
+.landing-search-panel:hover {
+  border-color: #d1d5db;
+}
+
+.landing-search-panel-active {
+  border-color: #60a5fa;
+  box-shadow: 0 18px 35px -22px rgba(59, 130, 246, 0.55);
+}
+
+.landing-search-row {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+.landing-search-icon {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
+}
+
+.landing-search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #111827;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.landing-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.landing-mic-button {
+  margin-left: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.landing-mic-button:hover {
+  background: #f3f4f6;
+}
+
+.landing-mic-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
+}
+
+.landing-footer-note {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.landing-footer-text {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.landing-help-link {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.landing-help-link:hover {
+  color: #1d4ed8;
+}
+
+@media (max-width: 900px) {
+  .landing-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .landing-nav {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-main {
+    padding-top: 3rem;
+  }
+
+  .landing-brand-wrap {
+    flex-wrap: wrap;
+  }
+
+  .landing-subtitle {
+    font-size: 1rem;
+  }
+
+  .landing-search-row {
+    padding: 0.875rem 1rem;
+  }
+}
