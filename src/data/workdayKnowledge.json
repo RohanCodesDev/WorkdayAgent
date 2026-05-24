@@ -1,20 +1,170 @@
 [
   {
-    "task": "Maintain Compensation Grades",
-    "keywords": ["salary grade", "pay band", "compensation setup"],
+    "task": "Personal Information",
+    "keywords": ["personal information", "profile", "personal"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Personal Information"
+  },
+  {
+    "task": "Contact Information",
+    "keywords": ["contact information", "phone", "email", "mailing address"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Contact Information"
+  },
+  {
+    "task": "Emergency Contacts",
+    "keywords": ["emergency contact", "emergency contacts"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Emergency Contacts"
+  },
+  {
+    "task": "Personal Data",
+    "keywords": ["personal data", "date of birth", "marital status", "demographic"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Personal Data"
+  },
+  {
+    "task": "Identification Documents",
+    "keywords": ["ids", "identification", "passport", "work authorization"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > IDs"
+  },
+  {
+    "task": "Preferred Name",
+    "keywords": ["preferred name", "name"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Name > Preferred Name"
+  },
+  {
+    "task": "Pronouns",
+    "keywords": ["pronouns"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Pronouns"
+  },
+  {
+    "task": "Ethnicity and Diversity",
+    "keywords": ["ethnicity", "diversity", "additional data"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Additional Data > Ethnicity/Diversity"
+  },
+  {
+    "task": "Work Eligibility",
+    "keywords": ["work eligibility", "visa", "work permit", "expiration"],
+    "module": "Personal",
+    "path": "Home > View Profile > Personal > Work Eligibility"
+  },
+  {
+    "task": "Workforce Administration",
+    "keywords": ["job change", "termination", "hire", "workforce administration"],
+    "module": "Job",
+    "path": "Home > My Team > Actions > Job Change / Termination / Hire"
+  },
+  {
+    "task": "Job Details",
+    "keywords": ["job details", "position title", "business title", "job family"],
+    "module": "Job",
+    "path": "Home > View Profile > Job > Job Details"
+  },
+  {
+    "task": "Position",
+    "keywords": ["position", "position id", "supervisory organization"],
+    "module": "Job",
+    "path": "Home > View Profile > Job > Position"
+  },
+  {
+    "task": "Job History",
+    "keywords": ["job history", "transfers", "promotions", "effective dates"],
+    "module": "Job",
+    "path": "Home > View Profile > Job > Job History"
+  },
+  {
+    "task": "Job Compensation",
+    "keywords": ["compensation", "salary", "allowances", "pay components"],
+    "module": "Job",
+    "path": "Home > View Profile > Job > Compensation"
+  },
+  {
+    "task": "Job Changes",
+    "keywords": ["job change", "transfer", "promotion", "location change"],
+    "module": "Manager",
+    "path": "Home > My Team > Actions > Job Change"
+  },
+  {
+    "task": "Create Position",
+    "keywords": ["create position", "new position"],
+    "module": "Manager",
+    "path": "Home > My Team > Actions > Create Position"
+  },
+  {
+    "task": "Edit Position Restrictions",
+    "keywords": ["edit position restrictions", "job requirements", "qualifications"],
+    "module": "Manager",
+    "path": "Home > My Team > Actions > Edit Position Restrictions"
+  },
+  {
+    "task": "Hire",
+    "keywords": ["hire", "add employee"],
+    "module": "HR",
+    "path": "Home > My Team > Actions > Hire"
+  },
+  {
+    "task": "Terminate",
+    "keywords": ["terminate", "end employment"],
+    "module": "HR",
+    "path": "Home > My Team > Actions > Terminate"
+  },
+  {
+    "task": "Transfer",
+    "keywords": ["transfer", "move employee"],
+    "module": "HR",
+    "path": "Home > My Team > Actions > Transfer"
+  },
+  {
+    "task": "Job Profiles",
+    "keywords": ["job profiles", "responsibilities", "competencies"],
+    "module": "HR",
+    "path": "Home > Job Profiles > Search / Edit"
+  },
+  {
+    "task": "Manage Compensation or Salary Change",
+    "keywords": ["manage compensation", "salary change", "compensation"],
     "module": "Compensation",
-    "path": "Compensation > Compensation Grades"
+    "path": "Home > Compensation > Manage Compensation / Salary Change"
   },
   {
-    "task": "Maintain Absence Plans",
-    "keywords": ["leave policy", "absence plan", "vacation setup"],
-    "module": "Absence",
-    "path": "Absence > Maintain Absence Plans"
+    "task": "Reporting",
+    "keywords": ["reporting", "standard reports", "custom reports"],
+    "module": "Reporting",
+    "path": "Home > Reporting > Standard Reports / Custom Reports"
   },
   {
-    "task": "Create Integration System User",
-    "keywords": ["integration user", "isu"],
-    "module": "System",
-    "path": "System > Security"
+    "task": "Security Roles and Permissions",
+    "keywords": ["security", "roles", "permissions"],
+    "module": "Security",
+    "path": "Home > Security > Roles / Permissions"
+  },
+  {
+    "task": "Headcount Report",
+    "keywords": ["headcount", "workforce headcount"],
+    "module": "Reporting",
+    "path": "Home > Reporting > Workforce > Headcount"
+  },
+  {
+    "task": "Turnover Report",
+    "keywords": ["turnover", "workforce turnover"],
+    "module": "Reporting",
+    "path": "Home > Reporting > Workforce > Turnover"
+  },
+  {
+    "task": "Compensation Analysis",
+    "keywords": ["compensation analysis", "analysis"],
+    "module": "Reporting",
+    "path": "Home > Reporting > Compensation > Analysis"
+  },
+  {
+    "task": "Time Tracking Report",
+    "keywords": ["time tracking", "time report"],
+    "module": "Reporting",
+    "path": "Home > Reporting > Time > Time Tracking"
   }
 ]

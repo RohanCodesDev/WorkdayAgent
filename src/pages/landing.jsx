@@ -1,15 +1,89 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Search, Mic, FileText, Calendar, Clock, TrendingUp } from 'lucide-react';
+import {
+  Search,
+  Mic,
+  FileText,
+  Calendar,
+  Clock,
+  TrendingUp,
+  User,
+  Briefcase,
+  Shield,
+  BarChart3,
+} from 'lucide-react';
+import knowledgeBase from '../data/workdayKnowledge.json';
 
 export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
-  const [healthStatus, setHealthStatus] = useState('checking');
   const [messages, setMessages] = useState([]);
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  function normalizeContent(text) {
+    return String(text || '')
+      .replace(/<\/?strong>/gi, '')
+      .replace(/\*\*/g, '');
+  }
+
+  function renderMessageContent(content) {
+    const normalized = normalizeContent(content);
+    return normalized.split('\n').map((line, index) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        return <div key={`line-${index}`} />;
+      }
+
+      const arrowIndex = trimmed.indexOf('->');
+      if (arrowIndex === -1) {
+        const taskMatch = trimmed.match(/^(.+?)\s+is\s+where\b/i);
+        if (taskMatch) {
+          const task = taskMatch[1];
+          const remainder = trimmed.slice(task.length);
+          return (
+            <p key={`line-${index}`}>
+              <strong>{task}</strong>
+              {remainder}
+            </p>
+          );
+        }
+
+        const pathIndex = trimmed.toLowerCase().indexOf('path:');
+        if (pathIndex !== -1) {
+          const before = trimmed.slice(0, pathIndex);
+          const after = trimmed.slice(pathIndex + 5).trimStart();
+          return (
+            <p key={`line-${index}`}>
+              {before}
+              <strong>Path:</strong> {after}
+            </p>
+          );
+        }
+
+        return <p key={`line-${index}`}>{trimmed}</p>;
+      }
+
+      const left = trimmed.slice(0, arrowIndex).trimEnd();
+      const right = trimmed.slice(arrowIndex + 2).trimStart();
+      const match = left.match(/^(\d+\.)\s*(.*)$/);
+      if (match) {
+        const [, number, label] = match;
+        return (
+          <p key={`line-${index}`}>
+            {number} <strong>{label || left}</strong> {'->'} {right}
+          </p>
+        );
+      }
+
+      return (
+        <p key={`line-${index}`}>
+          <strong>{left}</strong> {'->'} {right}
+        </p>
+      );
+    });
+  }
 
   const fullText =
     'A smart assistant to help you navigate Workday, access your data, and complete tasks effortlessly.';
@@ -24,25 +98,9 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    let mounted = true;
-    async function checkHealth() {
-      try {
-        const response = await fetch('/api/health');
-        if (!mounted) return;
-        setHealthStatus(response.ok ? 'connected' : 'disconnected');
-      } catch {
-        if (mounted) setHealthStatus('disconnected');
-      }
-    }
-    checkHealth();
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
-  async function askAI() {
-    const trimmedQuery = searchQuery.trim();
+  async function askAI(queryOverride) {
+    const trimmedQuery = String(queryOverride ?? searchQuery).trim();
     if (!trimmedQuery) return;
     const historySnapshot = messages;
     setLoading(true);
@@ -74,12 +132,21 @@ export default function LandingPage() {
     setLoading(false);
   }
 
-  const quickActions = [
-    { label: 'View Payslip', icon: FileText },
-    { label: 'Check Leave Balance', icon: Calendar },
-    { label: 'Apply Leave', icon: Clock },
-    { label: 'Performance Review', icon: TrendingUp },
-  ];
+  const iconByModule = {
+    Personal: User,
+    Job: Briefcase,
+    Manager: Clock,
+    HR: Calendar,
+    Compensation: FileText,
+    Reporting: BarChart3,
+    Security: Shield,
+  };
+
+  const quickActions = knowledgeBase.slice(0, 6).map((item) => ({
+    label: item.task,
+    query: item.task,
+    icon: iconByModule[item.module] || TrendingUp,
+  }));
 
   const searchPanelClassName = isFocused
     ? 'landing-search-panel landing-search-panel-active'
@@ -92,9 +159,6 @@ export default function LandingPage() {
           <div className="landing-brand-wrap">
             <div className="landing-brand-logo" />
             <span className="landing-brand-name">Workday Navigator</span>
-            <span className={`landing-status landing-status-${healthStatus}`}>
-              API: {healthStatus}
-            </span>
           </div>
           <nav className="landing-nav">
             <Link href="/landing" className="landing-nav-link">
@@ -125,7 +189,12 @@ export default function LandingPage() {
             {quickActions.map((action) => {
               const Icon = action.icon;
               return (
-                <button key={action.label} className="landing-action-button" type="button">
+                <button
+                  key={action.label}
+                  className="landing-action-button"
+                  type="button"
+                  onClick={() => askAI(action.query)}
+                >
                   <Icon className="landing-action-icon" />
                   <span>{action.label}</span>
                 </button>
@@ -137,7 +206,6 @@ export default function LandingPage() {
           <div className="landing-chat-panel">
             <div className="landing-chat-header">
               <h3 className="landing-chat-title">Assistant Chat</h3>
-              <span className="landing-chat-meta">Replies powered by Llama 3 (Groq)</span>
             </div>
             <div className="landing-chat-log">
               {messages.length === 0 ? (
@@ -148,7 +216,7 @@ export default function LandingPage() {
                     key={`${message.role}-${index}`}
                     className={`landing-chat-bubble landing-chat-${message.role}`}
                   >
-                    {message.content}
+                    {renderMessageContent(message.content)}
                   </div>
                 ))
               )}
@@ -178,7 +246,16 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        {loading && <p className="landing-thinking">Thinking...</p>}
+        {loading && (
+          <p className="landing-thinking">
+            <span className="landing-typing">Assistant is typing</span>
+            <span className="landing-typing-dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+          </p>
+        )}
         {apiError && <p className="landing-error">{apiError}</p>}
         <div className="landing-footer-note">
           <p className="landing-footer-text">Need help? Contact HR administrator.</p>
