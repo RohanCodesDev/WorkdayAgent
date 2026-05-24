@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "node server.js",
-    "build": "next build",
+    "build": "npm run build:index && next build",
     "start": "cross-env NODE_ENV=production node server.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:index": "node scripts/build-knowledge-index.js"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,6 @@
+import fs from 'fs';
+import path from 'path';
 import knowledge from '../data/workdayKnowledge.json';
-import { embed, cosineSimilarity } from './semantic';
 
 const aliasMap = {
   'money transaction': ['payment', 'pay', 'salary', 'compensation'],
@@ -12,44 +13,119 @@ const aliasMap = {
   reimbursement: ['compensation', 'pay'],
 };
 
+const indexFilePath = path.join(process.cwd(), 'src', 'data', 'knowledgeIndex.json');
 let indexedKnowledge = null;
+
+function tokenize(text) {
+  return String(text || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length > 2);
+}
+
+function buildTfidfIndex(items) {
+  const documents = items.map((item) =>
+    [item.task, item.module, item.path, ...(item.keywords || [])].join(' ')
+  );
+  const docTokens = documents.map((doc) => tokenize(doc));
+  const vocabulary = Array.from(new Set(docTokens.flat()));
+  const docCount = documents.length;
+
+  const docFrequencies = vocabulary.map((token) =>
+    docTokens.reduce((count, tokens) => (tokens.includes(token) ? count + 1 : count), 0)
+  );
+
+  const idf = docFrequencies.map((df) => Math.log((docCount + 1) / (df + 1)) + 1);
+
+  const vectors = docTokens.map((tokens) => {
+    const tokenCounts = tokens.reduce((acc, token) => {
+      acc[token] = (acc[token] || 0) + 1;
+      return acc;
+    }, {});
+
+    const vector = vocabulary.map((token, index) => {
+      const tf = tokenCounts[token] ? tokenCounts[token] / tokens.length : 0;
+      return tf * idf[index];
+    });
+
+    const magnitude = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0));
+    if (magnitude > 0) {
+      return vector.map((value) => value / magnitude);
+    }
+    return vector;
+  });
+
+  return {
+    vocabulary,
+    idf,
+    items: items.map((item, index) => ({ ...item, vector: vectors[index] })),
+  };
+}
+
+function buildQueryVector(index, query) {
+  const baseTokens = tokenize(query);
+  const queryTokens = expandTokens(String(query || '').toLowerCase(), baseTokens);
+  const tokenCounts = queryTokens.reduce((acc, token) => {
+    acc[token] = (acc[token] || 0) + 1;
+    return acc;
+  }, {});
+
+  const vector = index.vocabulary.map((token, i) => {
+    const tf = tokenCounts[token] ? tokenCounts[token] / queryTokens.length : 0;
+    return tf * index.idf[i];
+  });
+
+  const magnitude = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0));
+  if (magnitude > 0) {
+    return vector.map((value) => value / magnitude);
+  }
+  return vector;
+}
+
+function cosineSimilarity(a, b) {
+  let dot = 0;
+  let magA = 0;
+  let magB = 0;
+
+  for (let i = 0; i < a.length; i += 1) {
+    dot += a[i] * b[i];
+    magA += a[i] * a[i];
+    magB += b[i] * b[i];
+  }
+
+  if (magA === 0 || magB === 0) {
+    return 0;
+  }
+
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+}
 
 export async function buildIndex() {
   if (indexedKnowledge) {
     return indexedKnowledge;
   }
 
-  indexedKnowledge = await Promise.all(
-    knowledge.map(async (item) => {
-      const text = `
-${item.task}
+  if (fs.existsSync(indexFilePath)) {
+    const file = fs.readFileSync(indexFilePath, 'utf-8');
+    indexedKnowledge = JSON.parse(file);
+    return indexedKnowledge;
+  }
 
-${item.keywords.join(' ')}
-
-${item.path}
-
-${item.module}
-`;
-      const embedding = await embed(text);
-
-      return {
-        ...item,
-        embedding,
-      };
-    })
-  );
-
+  indexedKnowledge = buildTfidfIndex(knowledge);
   return indexedKnowledge;
 }
 
 export async function semanticSearch(query) {
   const index = await buildIndex();
-  const queryEmbedding = await embed(query);
   let best = null;
   let bestScore = -1;
 
-  for (const item of index) {
-    const score = cosineSimilarity(queryEmbedding, item.embedding);
+  const queryVector = buildQueryVector(index, query);
+
+  for (const item of index.items) {
+    const score = cosineSimilarity(queryVector, item.vector);
     if (score > bestScore) {
       best = item;
       bestScore = score;
@@ -64,10 +140,10 @@ export async function semanticSearch(query) {
 
 export async function semanticSearchTopK(query, limit = 3) {
   const index = await buildIndex();
-  const queryEmbedding = await embed(query);
+  const queryVector = buildQueryVector(index, query);
 
-  return index
-    .map((item) => ({ item, score: cosineSimilarity(queryEmbedding, item.embedding) }))
+  return index.items
+    .map((item) => ({ item, score: cosineSimilarity(queryVector, item.vector) }))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 }
