@@ -3,168 +3,196 @@
     "task": "Personal Information",
     "keywords": ["personal information", "profile", "personal"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Personal Information"
+    "path": "Home > View Profile > Personal > Personal Information",
+    "description": "Review and update your core personal details such as name and basic profile data."
   },
   {
     "task": "Contact Information",
     "keywords": ["contact information", "phone", "email", "mailing address"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Contact Information"
+    "path": "Home > View Profile > Personal > Contact Information",
+    "description": "Update your phone numbers, email addresses, and mailing address so HR can reach you."
   },
   {
     "task": "Emergency Contacts",
     "keywords": ["emergency contact", "emergency contacts"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Emergency Contacts"
+    "path": "Home > View Profile > Personal > Emergency Contacts",
+    "description": "Add, edit, or remove emergency contacts and their phone numbers."
   },
   {
     "task": "Personal Data",
     "keywords": ["personal data", "date of birth", "marital status", "demographic"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Personal Data"
+    "path": "Home > View Profile > Personal > Personal Data",
+    "description": "Manage personal data like date of birth, marital status, and demographic details."
   },
   {
     "task": "Identification Documents",
     "keywords": ["ids", "identification", "passport", "work authorization"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > IDs"
+    "path": "Home > View Profile > Personal > IDs",
+    "description": "Upload or update government IDs, passport details, and work authorization documents."
   },
   {
     "task": "Preferred Name",
     "keywords": ["preferred name", "name"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Name > Preferred Name"
+    "path": "Home > View Profile > Personal > Name > Preferred Name",
+    "description": "Set or update how your name appears across Workday."
   },
   {
     "task": "Pronouns",
     "keywords": ["pronouns"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Pronouns"
+    "path": "Home > View Profile > Personal > Pronouns",
+    "description": "Select the pronouns you want displayed across Workday."
   },
   {
     "task": "Ethnicity and Diversity",
     "keywords": ["ethnicity", "diversity", "additional data"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Additional Data > Ethnicity/Diversity"
+    "path": "Home > View Profile > Personal > Additional Data > Ethnicity/Diversity",
+    "description": "Provide voluntary ethnicity and diversity information for reporting."
   },
   {
     "task": "Work Eligibility",
     "keywords": ["work eligibility", "visa", "work permit", "expiration"],
     "module": "Personal",
-    "path": "Home > View Profile > Personal > Work Eligibility"
+    "path": "Home > View Profile > Personal > Work Eligibility",
+    "description": "Manage visa details, work permits, and related expiration dates."
   },
   {
     "task": "Workforce Administration",
     "keywords": ["job change", "termination", "hire", "workforce administration"],
     "module": "Job",
-    "path": "Home > My Team > Actions > Job Change / Termination / Hire"
+    "path": "Home > My Team > Actions > Job Change / Termination / Hire",
+    "description": "Start job changes, terminations, or hires for your team."
   },
   {
     "task": "Job Details",
     "keywords": ["job details", "position title", "business title", "job family"],
     "module": "Job",
-    "path": "Home > View Profile > Job > Job Details"
+    "path": "Home > View Profile > Job > Job Details",
+    "description": "View your position title, business title, location, and job family."
   },
   {
     "task": "Position",
     "keywords": ["position", "position id", "supervisory organization"],
     "module": "Job",
-    "path": "Home > View Profile > Job > Position"
+    "path": "Home > View Profile > Job > Position",
+    "description": "See position ID, availability date, and supervisory organization details."
   },
   {
     "task": "Job History",
     "keywords": ["job history", "transfers", "promotions", "effective dates"],
     "module": "Job",
-    "path": "Home > View Profile > Job > Job History"
+    "path": "Home > View Profile > Job > Job History",
+    "description": "Review your past roles, transfers, promotions, and effective dates."
   },
   {
     "task": "Job Compensation",
     "keywords": ["compensation", "salary", "allowances", "pay components"],
     "module": "Job",
-    "path": "Home > View Profile > Job > Compensation"
+    "path": "Home > View Profile > Job > Compensation",
+    "description": "View your salary, allowances, and pay components tied to the job."
   },
   {
     "task": "Job Changes",
     "keywords": ["job change", "transfer", "promotion", "location change"],
     "module": "Manager",
-    "path": "Home > My Team > Actions > Job Change"
+    "path": "Home > My Team > Actions > Job Change",
+    "description": "Initiate transfers, promotions, or location changes for your team."
   },
   {
     "task": "Create Position",
     "keywords": ["create position", "new position"],
     "module": "Manager",
-    "path": "Home > My Team > Actions > Create Position"
+    "path": "Home > My Team > Actions > Create Position",
+    "description": "Add a new position to a supervisory organization."
   },
   {
     "task": "Edit Position Restrictions",
     "keywords": ["edit position restrictions", "job requirements", "qualifications"],
     "module": "Manager",
-    "path": "Home > My Team > Actions > Edit Position Restrictions"
+    "path": "Home > My Team > Actions > Edit Position Restrictions",
+    "description": "Update position requirements, qualifications, and availability."
   },
   {
     "task": "Hire",
     "keywords": ["hire", "add employee"],
     "module": "HR",
-    "path": "Home > My Team > Actions > Hire"
+    "path": "Home > My Team > Actions > Hire",
+    "description": "Add a new employee into a position and start the hiring process."
   },
   {
     "task": "Terminate",
     "keywords": ["terminate", "end employment"],
     "module": "HR",
-    "path": "Home > My Team > Actions > Terminate"
+    "path": "Home > My Team > Actions > Terminate",
+    "description": "End employment and close the position when appropriate."
   },
   {
     "task": "Transfer",
     "keywords": ["transfer", "move employee"],
     "module": "HR",
-    "path": "Home > My Team > Actions > Transfer"
+    "path": "Home > My Team > Actions > Transfer",
+    "description": "Move employees between positions or organizations."
   },
   {
     "task": "Job Profiles",
     "keywords": ["job profiles", "responsibilities", "competencies"],
     "module": "HR",
-    "path": "Home > Job Profiles > Search / Edit"
+    "path": "Home > Job Profiles > Search / Edit",
+    "description": "Define responsibilities, qualifications, and competencies for roles."
   },
   {
     "task": "Manage Compensation or Salary Change",
     "keywords": ["manage compensation", "salary change", "compensation"],
     "module": "Compensation",
-    "path": "Home > Compensation > Manage Compensation / Salary Change"
+    "path": "Home > Compensation > Manage Compensation / Salary Change",
+    "description": "Manage compensation plans or initiate salary changes for employees."
   },
   {
     "task": "Reporting",
     "keywords": ["reporting", "standard reports", "custom reports"],
     "module": "Reporting",
-    "path": "Home > Reporting > Standard Reports / Custom Reports"
+    "path": "Home > Reporting > Standard Reports / Custom Reports",
+    "description": "Access standard and custom reports for your organization."
   },
   {
     "task": "Security Roles and Permissions",
     "keywords": ["security", "roles", "permissions"],
     "module": "Security",
-    "path": "Home > Security > Roles / Permissions"
+    "path": "Home > Security > Roles / Permissions",
+    "description": "Manage security roles and permissions across Workday."
   },
   {
     "task": "Headcount Report",
     "keywords": ["headcount", "workforce headcount"],
     "module": "Reporting",
-    "path": "Home > Reporting > Workforce > Headcount"
+    "path": "Home > Reporting > Workforce > Headcount",
+    "description": "View workforce headcount metrics and summaries."
   },
   {
     "task": "Turnover Report",
     "keywords": ["turnover", "workforce turnover"],
     "module": "Reporting",
-    "path": "Home > Reporting > Workforce > Turnover"
+    "path": "Home > Reporting > Workforce > Turnover",
+    "description": "Review workforce turnover trends and time periods."
   },
   {
     "task": "Compensation Analysis",
     "keywords": ["compensation analysis", "analysis"],
     "module": "Reporting",
-    "path": "Home > Reporting > Compensation > Analysis"
+    "path": "Home > Reporting > Compensation > Analysis",
+    "description": "Analyze compensation data and trends for decision-making."
   },
   {
     "task": "Time Tracking Report",
     "keywords": ["time tracking", "time report"],
     "module": "Reporting",
-    "path": "Home > Reporting > Time > Time Tracking"
+    "path": "Home > Reporting > Time > Time Tracking",
+    "description": "Track time reporting metrics and summaries."
   }
 ]

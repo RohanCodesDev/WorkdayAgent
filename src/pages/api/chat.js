@@ -86,8 +86,9 @@ export default async function handler(req, res) {
       }
     }
     if (matched && result.score >= 0.55) {
+      const description = matched.description ? ` ${matched.description}` : '';
       return res.status(200).json({
-        reply: `${matched.task} is where you can manage this area in Workday. Path: ${matched.path}`,
+        reply: `${matched.task}.${description} Path: ${matched.path}`,
       });
     }
 
